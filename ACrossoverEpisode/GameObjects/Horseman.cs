@@ -234,9 +234,6 @@
                 this.ScanForTargets();
             }
 
-            // The camera will follow the player
-            Context.Renderer.Camera.X = this.X - 275;
-
             // Update Action Area position
             this.ActionArea = new Circle(new Vector2(this.Position.X + this.Size.X / 2, this.Position.Y + this.Size.Y / 2), ActionAreaRadius);
 
