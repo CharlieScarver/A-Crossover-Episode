@@ -89,9 +89,6 @@
                 u.Update(frameTime);
             }
 
-            // The camera will follow the player
-            Context.Renderer.Camera.X = this.player.X - this.CameraOffsetX;
-
             if (player.Position.Y < -700)
             {
                 Context.Quit();
@@ -103,6 +100,9 @@
             // Render background
             renderer.Render(new Vector3(-500, 0, 0), new Vector2(5000, 1000), Color.CornflowerBlue);
             renderer.Render(Context.Renderer.Camera.Position, Context.Host.Size, Color.White, Context.AssetLoader.Get<Texture>("background.png"));
+
+            // The camera will follow the player
+            Context.Renderer.Camera.X = this.player.X - this.CameraOffsetX;
 
             renderer.RenderLine(new Vector3(-500, 430, 0), new Vector3(5000, 430, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
             renderer.RenderLine(new Vector3(-500, 440 + 96, 0), new Vector3(5000, 440 + 96, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
