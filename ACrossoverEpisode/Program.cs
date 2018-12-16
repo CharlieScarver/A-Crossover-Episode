@@ -27,12 +27,14 @@
         {            
             Context.Setup(config =>
             {
-                config.WindowTitle = "A Crossover Episode";
-                config.WindowMode = WindowMode.Windowed;
-                config.Volume = 75;
+                config.HostSettings.Title = "A Crossover Episode";
+                config.HostSettings.WindowMode = WindowMode.Windowed;
+                config.SoundSettings.Volume = 75;
+                //config.RenderSettings.Width = 1920;
+                //config.RenderSettings.Height = 1080;
             });
 
-            Renderer.CircleDetail = 90;
+            Context.Flags.RenderFlags.CircleDetail = 90;
 
             Context.LayerManager.Add(new MainLayer(), "Main Layer", 1);
 
@@ -74,6 +76,12 @@
             Units.Add(player);
             Units.Add(bouncer2);
             Units.Add(bouncer4);
+
+            Context.Renderer.Camera.OnMove += (e, s) =>
+            {
+                Context.Renderer.Camera.Update();
+            };
+
         }
 
         public override void Unload()
@@ -89,6 +97,9 @@
                 u.Update(frameTime);
             }
 
+            // The camera will follow the player
+            Context.Renderer.Camera.X = this.player.X + this.CameraOffsetX;
+
             if (player.Position.Y < -700)
             {
                 Context.Quit();
@@ -99,7 +110,7 @@
         {
             // Render background
             renderer.Render(new Vector3(-500, 0, 0), new Vector2(5000, 1000), Color.CornflowerBlue);
-            renderer.Render(Context.Renderer.Camera.Position, Context.Host.Size, Color.White, Context.AssetLoader.Get<Texture>("background.png"));
+            renderer.Render(Context.Renderer.Camera.Position, Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background.png"));
 
             // The camera will follow the player
             Context.Renderer.Camera.X = this.player.X - this.CameraOffsetX;
@@ -115,9 +126,6 @@
             {
                 u.Draw(renderer);
             }
-
-            // Render background
-            // new Vector3(275, 400, 0)
 
             renderer.Render(
                 new Vector3(4950, 450, 0),
