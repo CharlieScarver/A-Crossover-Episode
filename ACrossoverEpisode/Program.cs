@@ -43,7 +43,7 @@
 
         public override void Load()
         {
-            Context.AssetLoader.Get<Texture>("background.png");
+            Context.AssetLoader.Get<Texture>("background-repeatable.png");
 
             starAnimation = new AnimatedTexture(
                 Context.AssetLoader.Get<Texture>("star-spritesheet.png"),
@@ -110,7 +110,10 @@
         {
             // Render background
             renderer.Render(new Vector3(-500, 0, 0), new Vector2(5000, 1000), Color.CornflowerBlue);
-            renderer.Render(Context.Renderer.Camera.Position, Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background.png"));
+            renderer.Render(new Vector3(0, 0, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(1 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(2 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(3 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
 
             // The camera will follow the player
             Context.Renderer.Camera.X = this.player.X - this.CameraOffsetX;
