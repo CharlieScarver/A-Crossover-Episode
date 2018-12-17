@@ -13,6 +13,9 @@
 
     public class MainLayer : Layer
     {
+        public const string DebugFont = "debugFont.otf";
+        public const string PixelatedFont = "Fonts/pixelated_princess/pixelated_princess.ttf";
+
         public static List<GameObject> GameObjects = new List<GameObject>();
         public static List<Unit> Units = new List<Unit>();
 
@@ -54,7 +57,8 @@
                 1
             );
 
-            Context.AssetLoader.Get<Font>("debugFont.otf");
+            Context.AssetLoader.Get<Font>(DebugFont);
+            Context.AssetLoader.Get<Font>(PixelatedFont);
 
             // Context.SoundManager.Play(Context.AssetLoader.Get<SoundFile>("tuguduk.wav"), "Main Layer").Looping = true;
 
@@ -121,8 +125,13 @@
             renderer.RenderLine(new Vector3(-500, 430, 0), new Vector3(5000, 430, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
             renderer.RenderLine(new Vector3(-500, 440 + 96, 0), new Vector3(5000, 440 + 96, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
 
-            renderer.RenderString(Context.AssetLoader.Get<Font>("debugFont.otf"), 15, "This game is like life: you can only go forward.", new Vector3(200, 100, 0), Color.Black);
-            renderer.RenderString(Context.AssetLoader.Get<Font>("debugFont.otf"), 15, "Your mind sees what your eyes cannot.", new Vector3(4700, 150, 0), Color.White);
+            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "This game is like life: you can only go forward.", new Vector3(200, 100, 0), Color.Black);
+            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "Your mind sees what your eyes cannot.", new Vector3(4700, 150, 0), Color.White);
+
+            Vector3 dialogBoxPosition = new Vector3(1200, 290, 0);
+            renderer.Render(dialogBoxPosition, new Vector2(550, 45), Color.Black);
+            renderer.RenderOutline(dialogBoxPosition, new Vector2(550, 45), Color.White);
+            renderer.RenderString(Context.AssetLoader.Get<Font>(PixelatedFont), 22, "If there's a god, I hope she's watching...", dialogBoxPosition + new Vector3(30, 7, 0), Color.White);
 
             // LINQ Select can be JIT-ed better
             foreach (Unit u in Units)
