@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using ACrossoverEpisode.Game;
 using ACrossoverEpisode.Models;
@@ -45,7 +46,7 @@ namespace ACrossoverEpisode.Layers
         /// The list of units inhabiting the map.
         /// todo: Quadtree
         /// </summary>
-        public List<Unit> Units { get; } = new List<Unit>();
+        public List<Unit> Units { get; private set; } = new List<Unit>();
 
         #endregion
 
@@ -77,6 +78,8 @@ namespace ACrossoverEpisode.Layers
             {
                 Units.Add(UnitFactory.CreateGeneric(u.Type, u.Spawn));
             }
+
+            Units = Units.OrderBy(x => x.Z).ToList();
 
             // copy all units to the player object, temporary workaround.
             // todo
@@ -117,7 +120,10 @@ namespace ACrossoverEpisode.Layers
             switch (LoadedMap.BackgroundMode)
             {
                 case BackgroundMode.MoveWithCamera:
-                    renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
+                    renderer.RenderQueue(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
+                    break;
+                case BackgroundMode.HorizontalFillCameraHeight:
+                    renderer.RenderQueue(new Vector3(0, 0, 0), new Vector2(LoadedMap.Size.X, Context.Renderer.Camera.Height), Color.White, Background, new Rectangle(Vector2.Zero, new Vector2(LoadedMap.Size.X, Background.Size.Y)));
                     break;
             }
 

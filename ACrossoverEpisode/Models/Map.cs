@@ -10,7 +10,7 @@ namespace ACrossoverEpisode.Models
         public Vector2 Size { get; set; }
 
         // Player Block
-        public Vector2 Spawn { get; set; }
+        public Vector3 Spawn { get; set; }
 
         // Background
         public string Music { get; set; }

@@ -2,6 +2,7 @@
 {
     public enum BackgroundMode
     {
-        MoveWithCamera
+        MoveWithCamera,
+        HorizontalFillCameraHeight
     }
 }

@@ -9,6 +9,6 @@ namespace ACrossoverEpisode.Models
     public class MapUnit
     {
         public string Type { get; set; }
-        public Vector2 Spawn { get; set; }
+        public Vector3 Spawn { get; set; }
     }
 }
