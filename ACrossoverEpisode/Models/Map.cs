@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace ACrossoverEpisode.Models
 {
@@ -11,7 +12,12 @@ namespace ACrossoverEpisode.Models
         // Player Block
         public Vector2 Spawn { get; set; }
 
-        // Background Art
+        // Background
+        public string Music { get; set; }
         public string BackgroundImage { get; set; }
+        public BackgroundMode BackgroundMode { get; set; }
+
+        // Unit Block
+        public List<MapUnit> Units { get; set; }
     }
 }

@@ -36,6 +36,9 @@
         private Timer TargetCrosshairAnimationTimer { get; set; }
         private bool TargetCrosshairPosition { get; set; }
 
+        // todo: Move out of here.
+        public List<Unit> AllUnits { get; set; } = new List<Unit>();
+
         public Horseman(Vector3 position, Vector2 size) : base(position, size)
         {
             this.SpriteSize = new Vector2(48, 48);
@@ -78,12 +81,7 @@
             }
 
             Context.AssetLoader.Get<Font>("debugFont.otf");
-
-            GLThread.ExecuteGLThread(() =>
-            {
-                buffer = new QuadMapBuffer(4);
-            });
-
+            buffer = new QuadMapBuffer(4);
         }
 
         private void UpdateTimers(float deltaTime)
@@ -176,13 +174,10 @@
             }
 
             // I wanted to try this Foreach okay, give a break
-            MainLayer.GameObjects.ForEach(o =>
+            AllUnits.ForEach(o =>
             {
-                // Process only units - TODO make sure this actually works cause return my end the whole loop?
-                if (!(o is Unit)) return;
-
                 // Skip the player object
-                Unit u = (Unit)o;
+                Unit u = o;
                 if (ReferenceEquals(u, this)) return;
 
                 // Check if the unit is inside the Action Area
@@ -244,30 +239,30 @@
 
         public override void Draw(Renderer renderer)
         {
-            // Draw the Facing "Arrow"
-            Vector3 p1;
-            Vector3 p2;
-            Vector3 p3;
+            //// Draw the Facing "Arrow"
+            //Vector3 p1;
+            //Vector3 p2;
+            //Vector3 p3;
 
-            if (this.IsFacingRight)
-            {
-                p1 = this.Position + new Vector3(this.Size.X - 25, -80, 0);
-                p2 = this.Position + new Vector3(this.Size.X - 25, this.FacingArrowHeight - 80, 0);
-                p3 = this.Position + new Vector3(this.Size.X + 25, (this.FacingArrowHeight / 2) - 80, 0);
-            }
-            else
-            {
-                p1 = this.Position + new Vector3(this.FacingArrowWidth - 25, -80, 0);
-                p2 = this.Position + new Vector3(this.FacingArrowWidth - 25, this.FacingArrowHeight - 80, 0);
-                p3 = this.Position + new Vector3(25 - this.FacingArrowWidth, (this.FacingArrowHeight / 2) - 80, 0);
-            }
+            //if (this.IsFacingRight)
+            //{
+            //    p1 = this.Position + new Vector3(this.Size.X - 25, -80, 0);
+            //    p2 = this.Position + new Vector3(this.Size.X - 25, this.FacingArrowHeight - 80, 0);
+            //    p3 = this.Position + new Vector3(this.Size.X + 25, (this.FacingArrowHeight / 2) - 80, 0);
+            //}
+            //else
+            //{
+            //    p1 = this.Position + new Vector3(this.FacingArrowWidth - 25, -80, 0);
+            //    p2 = this.Position + new Vector3(this.FacingArrowWidth - 25, this.FacingArrowHeight - 80, 0);
+            //    p3 = this.Position + new Vector3(25 - this.FacingArrowWidth, (this.FacingArrowHeight / 2) - 80, 0);
+            //}
 
-            buffer.Reset();
-            buffer.MapNextVertex(p1, Color.Red);
-            buffer.MapNextVertex(p2, Color.Red);
-            buffer.MapNextVertex(p3, Color.Red);
-            buffer.MapNextVertex(p3, Color.Red);
-            buffer.Render();
+            //buffer.Reset();
+            //buffer.MapNextVertex(p1, Color.Red);
+            //buffer.MapNextVertex(p2, Color.Red);
+            //buffer.MapNextVertex(p3, Color.Red);
+            //buffer.MapNextVertex(p3, Color.Red);
+            //buffer.Render();
 
             // Draw the Action Area 
             //renderer.RenderLine(new Vector3(this.ActionArea.Left), new Vector3(this.ActionArea.Top), Color.Red);

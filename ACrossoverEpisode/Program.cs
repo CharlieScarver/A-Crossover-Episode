@@ -34,6 +34,7 @@ namespace EmotionPlayground
 
         private static void Main()
         {
+            // Configuration.
             Context.Setup(config =>
             {
                 config.HostSettings.Title = "A Crossover Episode";
@@ -42,9 +43,10 @@ namespace EmotionPlayground
                 //config.RenderSettings.Width = 1920;
                 //config.RenderSettings.Height = 1080;
             });
-
             Context.Flags.RenderFlags.CircleDetail = 90;
-            Context.LayerManager.Add(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.txt")), "game", 1);
+
+            // Load test map.
+            Context.LayerManager.Add(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")), "game", 1);
             Context.Run();
         }
 

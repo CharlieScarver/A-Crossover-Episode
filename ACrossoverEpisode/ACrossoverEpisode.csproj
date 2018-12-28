@@ -67,11 +67,14 @@
     <Compile Include="Game\ExtensionClasses\Line.cs" />
     <Compile Include="Game\ExtensionClasses\Timer.cs" />
     <Compile Include="Game\SceneObjectManager.cs" />
+    <Compile Include="Game\UnitFactory.cs" />
     <Compile Include="Game\Utilities.cs" />
     <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Layers\GameLayer.cs" />
+    <Compile Include="Models\BackgroundMode.cs" />
     <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\MapUnit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,9 +104,9 @@
     <Content Include="Assets\horseman-spritesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Maps\testmap.txt">
+    <None Include="Assets\Maps\testmap.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Assets\star-spritesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

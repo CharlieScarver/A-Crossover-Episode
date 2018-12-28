@@ -106,15 +106,36 @@
                 Color.Black
                );
 
-            //if (this.IsFacingRight)
-            //{
+            if (this.IsFacingRight)
+            {
                 renderer.Render(
                     this.Position,
-                    this.Size, // Display size coming from Transform.Size
+                    this.Size,
                     Color.White,
                     this.Animation.Texture,
                     this.Animation.CurrentFrame
                 );
+            }
+            else
+            {
+                renderer.Render(
+                    this.Position,
+                    this.Size,
+                    Color.White,
+                    this.Animation.Texture.ModifyMatrix(Matrix4x4.CreateScale(-1, 1, 1)),
+                    this.Animation.CurrentFrame
+                );
+            }
+
+            //if (this.IsFacingRight)
+            //{
+                //renderer.Render(
+                //    this.Position,
+                //    this.Size, // Display size coming from Transform.Size
+                //    Color.White,
+                //    this.Animation.Texture,
+                //    this.Animation.CurrentFrame
+                //);
             //}
             //else
             //{
