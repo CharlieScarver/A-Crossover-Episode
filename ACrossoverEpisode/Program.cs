@@ -119,9 +119,6 @@
             renderer.Render(new Vector3(2 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
             renderer.Render(new Vector3(3 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
 
-            // The camera will follow the player
-            Context.Renderer.Camera.X = this.player.X - this.CameraOffsetX;
-
             renderer.RenderLine(new Vector3(-500, 430, 0), new Vector3(5000, 430, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
             renderer.RenderLine(new Vector3(-500, 440 + 96, 0), new Vector3(5000, 440 + 96, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
 
