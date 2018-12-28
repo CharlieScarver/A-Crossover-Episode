@@ -1,0 +1,14 @@
+﻿{
+	"Name": "test map",
+	"Size": {
+		"X": 1000,
+		"Y": 1000
+	},
+	
+	"Spawn": {
+		"X": 275,
+		"Y": 400
+	},
+	
+	"BackgroundImage": "background-repeatable.png"
+}

@@ -1,16 +1,22 @@
-﻿namespace EmotionPlayground
-{
-    using Emotion.Engine;
-    using Emotion.Engine.Hosting.Desktop;
-    using Emotion.Game.Animation;
-    using Emotion.Game.Layering;
-    using Emotion.Graphics;
-    using Emotion.Graphics.Text;
-    using System.Numerics;
-    using EmotionPlayground.GameObjects;
-    using System.Collections.Generic;
-    using Emotion.Primitives;
+﻿#region Using
 
+using System.Collections.Generic;
+using System.Numerics;
+using ACrossoverEpisode.Layers;
+using Emotion.Engine;
+using Emotion.Engine.Hosting.Desktop;
+using Emotion.Game.Animation;
+using Emotion.Game.Layering;
+using Emotion.Graphics;
+using Emotion.Graphics.Text;
+using Emotion.IO;
+using Emotion.Primitives;
+using EmotionPlayground.GameObjects;
+
+#endregion
+
+namespace EmotionPlayground
+{
     public class MainLayer : Layer
     {
         public const string DebugFont = "debugFont.otf";
@@ -24,10 +30,10 @@
 
         public Horseman player;
 
-        AnimatedTexture starAnimation;
+        private AnimatedTexture starAnimation;
 
-        static void Main()
-        {            
+        private static void Main()
+        {
             Context.Setup(config =>
             {
                 config.HostSettings.Title = "A Crossover Episode";
@@ -38,9 +44,7 @@
             });
 
             Context.Flags.RenderFlags.CircleDetail = 90;
-
-            Context.LayerManager.Add(new MainLayer(), "Main Layer", 1);
-
+            Context.LayerManager.Add(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.txt")), "game", 1);
             Context.Run();
         }
 
@@ -62,7 +66,7 @@
 
             // Context.SoundManager.Play(Context.AssetLoader.Get<SoundFile>("tuguduk.wav"), "Main Layer").Looping = true;
 
-            this.player = new Horseman(new Vector3(275, 400, 0), new Vector2(96, 96));
+            player = new Horseman(new Vector3(275, 400, 0), new Vector2(96, 96));
             Bouncer bouncer1 = new Bouncer(new Vector3(850, 340, 0), new Vector2(96, 96));
             Bouncer bouncer2 = new Bouncer(new Vector3(850, 455, 0), new Vector2(96, 96));
 
@@ -81,16 +85,11 @@
             Units.Add(bouncer2);
             Units.Add(bouncer4);
 
-            Context.Renderer.Camera.OnMove += (e, s) =>
-            {
-                Context.Renderer.Camera.Update();
-            };
-
+            Context.Renderer.Camera.OnMove += (e, s) => { Context.Renderer.Camera.Update(); };
         }
 
         public override void Unload()
         {
-
         }
 
         public override void Update(float frameTime)
@@ -102,12 +101,9 @@
             }
 
             // The camera will follow the player
-            Context.Renderer.Camera.X = this.player.X + this.CameraOffsetX;
+            Context.Renderer.Camera.X = player.X + CameraOffsetX;
 
-            if (player.Position.Y < -700)
-            {
-                Context.Quit();
-            }
+            if (player.Position.Y < -700) Context.Quit();
         }
 
         public override void Draw(Renderer renderer)
@@ -115,9 +111,12 @@
             // Render background
             renderer.Render(new Vector3(-500, 0, 0), new Vector2(5000, 1000), Color.CornflowerBlue);
             renderer.Render(new Vector3(0, 0, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
-            renderer.Render(new Vector3(1 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
-            renderer.Render(new Vector3(2 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
-            renderer.Render(new Vector3(3 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(1 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White,
+                Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(2 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White,
+                Context.AssetLoader.Get<Texture>("background-repeatable.png"));
+            renderer.Render(new Vector3(3 * Context.Renderer.Camera.Size.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White,
+                Context.AssetLoader.Get<Texture>("background-repeatable.png"));
 
             renderer.RenderLine(new Vector3(-500, 430, 0), new Vector3(5000, 430, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
             renderer.RenderLine(new Vector3(-500, 440 + 96, 0), new Vector3(5000, 440 + 96, 0), Color.Lerp(Color.Red, Color.Black, 0.5f));
