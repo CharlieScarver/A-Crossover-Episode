@@ -79,8 +79,6 @@ namespace ACrossoverEpisode.Layers
                 Units.Add(UnitFactory.CreateGeneric(u.Type, u.Spawn));
             }
 
-            Units = Units.OrderBy(x => x.Z).ToList();
-
             // copy all units to the player object, temporary workaround.
             // todo
             ((Horseman) Player).AllUnits = Units;
