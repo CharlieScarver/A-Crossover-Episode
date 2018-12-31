@@ -83,9 +83,6 @@ namespace ACrossoverEpisode.Layers
             // todo
             ((Horseman) Player).AllUnits = Units;
 
-            // Hacks and workarounds.
-            Context.Renderer.Camera.OnMove += (e, s) => { Context.Renderer.Camera.Update(); };
-
             // Other init.
             // Context.SoundManager.Play(BackgroundMusic, "Main Layer").Looping = true;
 
@@ -118,10 +115,10 @@ namespace ACrossoverEpisode.Layers
             switch (LoadedMap.BackgroundMode)
             {
                 case BackgroundMode.MoveWithCamera:
-                    renderer.RenderQueue(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
+                    renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
                     break;
                 case BackgroundMode.HorizontalFillCameraHeight:
-                    renderer.RenderQueue(new Vector3(0, 0, 0), new Vector2(LoadedMap.Size.X, Context.Renderer.Camera.Height), Color.White, Background, new Rectangle(Vector2.Zero, new Vector2(LoadedMap.Size.X, Background.Size.Y)));
+                    renderer.Render(new Vector3(0, 0, 0), new Vector2(LoadedMap.Size.X, Context.Renderer.Camera.Height), Color.White, Background, new Rectangle(Vector2.Zero, new Vector2(LoadedMap.Size.X, Background.Size.Y)));
                     break;
             }
 

@@ -301,17 +301,17 @@
                 if (this.TargetCrosshairPosition)
                 {
                     Circle c = new Circle(target.Center, target.Size.X / 1.5f);
-                    renderer.RenderQueueLine(new Vector3(c.Left, target.Z), new Vector3(c.Top, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(c.Top, target.Z), new Vector3(c.Right, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(c.Right, target.Z), new Vector3(c.Bottom, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(c.Bottom, target.Z), new Vector3(c.Left, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(c.Left, target.Z), new Vector3(c.Top, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(c.Top, target.Z), new Vector3(c.Right, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(c.Right, target.Z), new Vector3(c.Bottom, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(c.Bottom, target.Z), new Vector3(c.Left, target.Z), crosshairColor);
                 } else
                 {
                     Rectangle r = new Rectangle(target.Position.ToVec2(), new Vector2(target.Size.X, target.Size.X));
-                    renderer.RenderQueueLine(new Vector3(r.X, r.Y, target.Z), new Vector3(r.X + r.Width, r.Y, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(r.X + r.Width, r.Y, target.Z), new Vector3(r.X + r.Width, r.Y + r.Height, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(r.X + r.Width, r.Y + r.Height, target.Z), new Vector3(r.X, r.Y + r.Height, target.Z), crosshairColor);
-                    renderer.RenderQueueLine(new Vector3(r.X, r.Y + r.Height, target.Z), new Vector3(r.X, r.Y, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(r.X, r.Y, target.Z), new Vector3(r.X + r.Width, r.Y, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(r.X + r.Width, r.Y, target.Z), new Vector3(r.X + r.Width, r.Y + r.Height, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(r.X + r.Width, r.Y + r.Height, target.Z), new Vector3(r.X, r.Y + r.Height, target.Z), crosshairColor);
+                    renderer.RenderLine(new Vector3(r.X, r.Y + r.Height, target.Z), new Vector3(r.X, r.Y, target.Z), crosshairColor);
                 }
             }
 

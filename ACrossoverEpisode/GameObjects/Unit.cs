@@ -108,7 +108,7 @@
 
             if (this.IsFacingRight)
             {
-                renderer.RenderQueue(
+                renderer.Render(
                     this.Position,
                     this.Size,
                     Color.White,
@@ -118,7 +118,7 @@
             }
             else
             {
-                renderer.RenderQueue(
+                renderer.Render(
                     this.Position,
                     this.Size,
                     Color.White,
