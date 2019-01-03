@@ -40,7 +40,7 @@
             );
 
             this.StartWalkingTimer = new Timer(5000);
-            this.StopWalkingTimer = new Timer(8300);
+            this.StopWalkingTimer = new Timer(13000);
 
             this.StartWalkingTimer.Start();
             this.StopWalkingTimer.Stop();
