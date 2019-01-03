@@ -33,6 +33,9 @@ namespace ACrossoverEpisode.Game
                 case "bouncer":
                     return new Bouncer(spawn, new Vector2(96, 96));
 
+                case "wonderer":
+                    return new Wonderer(spawn, new Vector2(96, 96));
+
                 default:
                     Context.Log.Error($"Invalid unit of type {type}.", Emotion.Debug.MessageSource.Game);
                     return null;
