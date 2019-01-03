@@ -1,0 +1,57 @@
+﻿{
+  "Name": "test map",
+  "Size": {
+    "X": 3000,
+    "Y": 1000
+  },
+  "Spawn": {
+    "X": 275,
+    "Y": 400,
+    "Z": 2
+  },
+  "Music": "tuguduk.wav",
+  "BackgroundImage": "background-repeatable.png",
+  "BackgroundMode": "HorizontalFillCameraHeight",
+  "Units": [
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 850,
+        "Y": 340,
+        "Z": 1
+      }
+    },
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 850,
+        "Y": 445,
+        "Z": 3
+      }
+    },
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 1450,
+        "Y": 360,
+        "Z": 1
+      }
+    },
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 2150,
+        "Y": 410,
+        "Z": 1
+      }
+    },
+    {
+      "Type": "Wonderer",
+      "Spawn": {
+        "X": 675,
+        "Y": 360,
+        "Z": 1
+      }
+    }
+  ]
+}
