@@ -6,8 +6,8 @@ using System.Numerics;
 using ACrossoverEpisode.Game;
 using ACrossoverEpisode.Models;
 using Emotion.Engine;
+using Emotion.Engine.Scenography;
 using Emotion.Game.Animation;
-using Emotion.Game.Layering;
 using Emotion.Graphics;
 using Emotion.Graphics.Text;
 using Emotion.IO;
@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace ACrossoverEpisode.Layers
 {
-    public class GameLayer : Layer
+    public class GameLayer : Scene
     {
         #region Properties
 
