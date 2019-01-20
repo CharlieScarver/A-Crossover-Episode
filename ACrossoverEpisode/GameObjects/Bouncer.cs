@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using System.Numerics;
+using ACrossoverEpisode.GameObjects;
 using Emotion.Engine;
 using Emotion.Game.Animation;
 using Emotion.Graphics;
@@ -29,6 +30,8 @@ namespace EmotionPlayground.GameObjects
                 (Size.X - BoundingBox.Size.X) / 2 + 5,
                 (Size.Y - BoundingBox.Size.Y) / 2
             );
+
+            this.CurrentQuote = new DialogBox("The more you do things, the faster the universe dies. Second law of Thermodynamics. " + this.Id);
         }
     }
 }

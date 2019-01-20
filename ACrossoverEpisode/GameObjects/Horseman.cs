@@ -131,6 +131,24 @@
             {
                 this.IsCharging = true;
             }
+
+            if (Context.InputManager.IsKeyUp("Q"))
+            {
+                if (this.CurrentTarget != null)
+                {
+                    // Toggle dialog box for Current Target unit
+                    this.CurrentTarget.IsTalking = !this.CurrentTarget.IsTalking;
+                }
+
+                // Hide dialog boxes from other units
+                foreach (Unit u in AllUnits)
+                {
+                    if (u != this.CurrentTarget && u.IsTalking)
+                    {
+                        u.IsTalking = false;
+                    }
+                }
+            }
         }
 
         // Adds the Charge mechanic to the basic movement handling

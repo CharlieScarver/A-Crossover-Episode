@@ -7,6 +7,7 @@
     using System.Numerics;
     using EmotionPlayground.Interfaces;
     using Emotion.Primitives;
+    using ACrossoverEpisode.GameObjects;
 
     public class Unit : GameObject, IUpdatable, IDrawable
     {
@@ -29,11 +30,12 @@
         public bool IsIdle = true;
         public bool IsFalling = false;
 
+        public bool IsTalking = false;
         public bool IsDashing = false;
         public bool inAnimation = false;
 
         protected float CurrentStamina;
-
+        protected DialogBox CurrentQuote;
 
         protected Unit(Vector3 position) : base(position)
         {
@@ -125,6 +127,11 @@
                     this.Animation.Texture.ModifyMatrix(Matrix4x4.CreateScale(-1, 1, 1)),
                     this.Animation.CurrentFrame
                 );
+            }
+
+            if (this.IsTalking && this.CurrentQuote != null)
+            {
+                this.CurrentQuote.Draw(renderer);
             }
 
             //if (this.IsFacingRight)

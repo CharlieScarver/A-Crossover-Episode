@@ -3,6 +3,7 @@
     #region Using
 
     using System.Numerics;
+    using ACrossoverEpisode.GameObjects;
     using Emotion.Engine;
     using Emotion.Game.Animation;
     using Emotion.Graphics;
@@ -44,6 +45,8 @@
 
             this.StartWalkingTimer.Start();
             this.StopWalkingTimer.Stop();
+
+            this.CurrentQuote = new DialogBox("Blizzard will rage over the pyramids.");
         }
 
         public override void Update(float deltaTime)
