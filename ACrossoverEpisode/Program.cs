@@ -5,8 +5,8 @@ using System.Numerics;
 using ACrossoverEpisode.Layers;
 using Emotion.Engine;
 using Emotion.Engine.Hosting.Desktop;
+using Emotion.Engine.Scenography;
 using Emotion.Game.Animation;
-using Emotion.Game.Layering;
 using Emotion.Graphics;
 using Emotion.Graphics.Text;
 using Emotion.IO;
@@ -17,7 +17,7 @@ using EmotionPlayground.GameObjects;
 
 namespace EmotionPlayground
 {
-    public class MainLayer : Layer
+    public class MainLayer : Scene
     {
         public const string DebugFont = "debugFont.otf";
         public const string PixelatedFont = "Fonts/pixelated_princess/pixelated_princess.ttf";
@@ -46,7 +46,7 @@ namespace EmotionPlayground
             Context.Flags.RenderFlags.CircleDetail = 90;
 
             // Load test map.
-            Context.LayerManager.Add(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")), "game", 1);
+            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")));
             Context.Run();
         }
 
