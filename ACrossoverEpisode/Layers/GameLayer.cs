@@ -1,9 +1,12 @@
 ﻿#region Using
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using ACrossoverEpisode.Game;
+using ACrossoverEpisode.GameObjects;
 using ACrossoverEpisode.Models;
 using Emotion.Engine;
 using Emotion.Engine.Scenography;
@@ -48,6 +51,11 @@ namespace ACrossoverEpisode.Layers
         /// </summary>
         public List<Unit> Units { get; private set; } = new List<Unit>();
 
+        /// <summary>
+        /// The dialog box currently on screen.
+        /// </summary>
+        public DialogBox CurrentDialog { get; set; } = null;
+
         #endregion
 
         // todo: unit
@@ -56,7 +64,7 @@ namespace ACrossoverEpisode.Layers
         public GameLayer(TextFile mapFile)
         {
             // Deserialize map into model.
-            LoadedMap = JsonConvert.DeserializeObject<GameMap>(string.Join("\n", mapFile.Content));
+            LoadedMap = JsonConvert.DeserializeObject<GameMap>(mapFile.Content);
 
             bool breakpointHere = false;
         }
@@ -65,7 +73,8 @@ namespace ACrossoverEpisode.Layers
         {
             // Load assets.
             // todo: Null checks and fallbacks.
-            Background = Context.AssetLoader.Get<Texture>(LoadedMap.BackgroundImage);
+            Context.Settings.RenderSettings.ClearColor = LoadedMap.BackgroundColor;
+            if (LoadedMap.BackgroundImage != null) Background = Context.AssetLoader.Get<Texture>(LoadedMap.BackgroundImage);
             BackgroundMusic = Context.AssetLoader.Get<SoundFile>(LoadedMap.Music);
 
             // Logic.
@@ -81,10 +90,15 @@ namespace ACrossoverEpisode.Layers
 
             // copy all units to the player object, temporary workaround.
             // todo
-            ((Horseman) Player).AllUnits = Units;
+            ((Horseman)Player).AllUnits = Units;
 
             // Other init.
             // Context.SoundManager.Play(BackgroundMusic, "Main Layer").Looping = true;
+
+            // Run start script.
+            SetupScripting();
+            if (!string.IsNullOrEmpty(LoadedMap.StartScript))
+                Task.Run(() => Context.ScriptingEngine.RunScript(LoadedMap.StartScript));
 
             // todo: turn into a unit.
             starAnimation = new AnimatedTexture(
@@ -114,6 +128,9 @@ namespace ACrossoverEpisode.Layers
             // Draw background first.
             switch (LoadedMap.BackgroundMode)
             {
+                case BackgroundMode.SolidColor:
+                    renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, LoadedMap.BackgroundColor);
+                    break;
                 case BackgroundMode.MoveWithCamera:
                     renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
                     break;
@@ -127,6 +144,9 @@ namespace ACrossoverEpisode.Layers
             {
                 u.Draw(renderer);
             }
+
+            // Draw the current dialog box - if any.
+            CurrentDialog?.Draw(renderer);
 
             // todo: Turn into units.
             string DebugFont = "debugFont.otf";
@@ -151,5 +171,26 @@ namespace ACrossoverEpisode.Layers
         public override void Unload()
         {
         }
+
+        #region Scripting API
+
+        private void SetupScripting()
+        {
+            Context.ScriptingEngine.Expose("wait", (Action<int>)Wait);
+            Context.ScriptingEngine.Expose("text", (Action<string>)Text);
+            Context.ScriptingEngine.Expose("te", (Action<string>)Text);
+        }
+
+        private void Wait(int duration)
+        {
+            Task.Delay(duration).Wait();
+        }
+
+        private void Text(string text)
+        {
+            CurrentDialog = text == null ? null : new DialogBox(text);
+        }
+
+        #endregion
     }
 }

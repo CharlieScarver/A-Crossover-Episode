@@ -1,0 +1,24 @@
+﻿{
+  "Name": "tutorial",
+  "Size": {
+    "X": 3000,
+    "Y": 1000
+  },
+  "Spawn": {
+    "X": 275,
+    "Y": 400,
+    "Z": 2
+  },
+  "Music": "",
+  "BackgroundImage": "",
+  "BackgroundMode": "SolidColor",
+  "BackgroundColor":  {
+    "R": 255,
+    "G": 255,
+    "B": 255,
+    "A": 255
+  },
+  "Units": [
+  ],
+  "StartScript": "wait(3000); text('...')"
+}

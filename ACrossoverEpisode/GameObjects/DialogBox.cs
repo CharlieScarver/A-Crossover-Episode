@@ -63,12 +63,8 @@
             
             renderer.Render(this.Position, this.Size, Color.Black);
             renderer.RenderOutline(this.Position, this.Size, Color.White);
-            
 
-            for (int i = 0; i < this.TextRows.Count; i++)
-            {
-                renderer.RenderString(Context.AssetLoader.Get<Font>(PixelatedFont), 22, this.TextRows[i], this.Position + new Vector3(30, 20 + (RowHeight * i), 10), Color.White);
-            }
+            renderer.RenderString(Context.AssetLoader.Get<Font>(PixelatedFont), 22, string.Join("\n", this.TextRows), this.Position + new Vector3(30, 20, 10), Color.White);
         }
     }
 }

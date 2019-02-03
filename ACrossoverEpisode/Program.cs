@@ -1,7 +1,9 @@
 ﻿#region Using
 
+using System;
 using System.Collections.Generic;
 using System.Numerics;
+using ACrossoverEpisode.GameObjects;
 using ACrossoverEpisode.Layers;
 using Emotion.Engine;
 using Emotion.Engine.Hosting.Desktop;
@@ -40,13 +42,14 @@ namespace EmotionPlayground
                 config.HostSettings.Title = "A Crossover Episode";
                 config.HostSettings.WindowMode = WindowMode.Windowed;
                 config.SoundSettings.Volume = 75;
+                config.ScriptingSettings.Timeout = TimeSpan.FromMinutes(1);
                 //config.RenderSettings.Width = 1920;
                 //config.RenderSettings.Height = 1080;
             });
             Context.Flags.RenderFlags.CircleDetail = 90;
 
             // Load test map.
-            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")));
+            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/tutorial.json")));
             Context.Run();
         }
 

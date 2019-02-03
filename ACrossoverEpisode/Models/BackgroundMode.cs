@@ -3,6 +3,7 @@
     public enum BackgroundMode
     {
         MoveWithCamera,
-        HorizontalFillCameraHeight
+        HorizontalFillCameraHeight,
+        SolidColor
     }
 }

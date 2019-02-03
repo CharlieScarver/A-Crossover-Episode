@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Emotion.Primitives;
 
 namespace ACrossoverEpisode.Models
 {
@@ -15,9 +16,13 @@ namespace ACrossoverEpisode.Models
         // Background
         public string Music { get; set; }
         public string BackgroundImage { get; set; }
-        public BackgroundMode BackgroundMode { get; set; }
+        public BackgroundMode? BackgroundMode { get; set; }
+        public Color BackgroundColor { get; set; }
 
         // Unit Block
         public List<MapUnit> Units { get; set; }
+
+        // Scripts
+        public string StartScript { get; set; }
     }
 }
