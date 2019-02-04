@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\DialogBox.cs" />
+    <Compile Include="GameObjects\PhysicsUnit.cs" />
     <Compile Include="GameObjects\Wonderer.cs" />
     <Compile Include="GameObjects\Bouncer.cs" />
     <Compile Include="GameObjects\Horseman.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="GameObjects\Unit.cs" />
     <Compile Include="Game\ExtensionClasses\Circle.cs" />
     <Compile Include="Game\ExtensionClasses\Line.cs" />
+    <Compile Include="Game\ExtensionClasses\TimerTask.cs" />
     <Compile Include="Game\ExtensionClasses\Timer.cs" />
     <Compile Include="Game\SceneObjectManager.cs" />
     <Compile Include="Game\UnitFactory.cs" />

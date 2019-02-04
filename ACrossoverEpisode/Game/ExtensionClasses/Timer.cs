@@ -24,13 +24,13 @@
         }
 
         // Starts or restarts the timer
-        public void Start()
+        public virtual void Start()
         {
             this.PassedTime = 0;
             this.Ready = false;
         }
 
-        public void Update(float deltaTime)
+        public virtual void Update(float deltaTime)
         {
             if (!this.Ready)
             {
@@ -43,7 +43,7 @@
             }
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             this.Ready = true;
         }

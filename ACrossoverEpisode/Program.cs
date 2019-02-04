@@ -49,7 +49,7 @@ namespace EmotionPlayground
             Context.Flags.RenderFlags.CircleDetail = 90;
 
             // Load test map.
-            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/tutorial.json")));
+            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")));
             Context.Run();
         }
 

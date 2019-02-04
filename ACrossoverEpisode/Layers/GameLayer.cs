@@ -1,11 +1,13 @@
 ﻿#region Using
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using ACrossoverEpisode.Game;
+using ACrossoverEpisode.Game.ExtensionClasses;
 using ACrossoverEpisode.GameObjects;
 using ACrossoverEpisode.Models;
 using Emotion.Engine;
@@ -17,6 +19,7 @@ using Emotion.IO;
 using Emotion.Primitives;
 using Emotion.Sound;
 using EmotionPlayground.GameObjects;
+using FarseerPhysics.Dynamics;
 using Newtonsoft.Json;
 
 #endregion
@@ -56,6 +59,15 @@ namespace ACrossoverEpisode.Layers
         /// </summary>
         public DialogBox CurrentDialog { get; set; } = null;
 
+        /// <summary>
+        /// List of timers.
+        /// </summary>
+        public List<TimerTask> Timers;
+
+        public World PhysicsSim;
+
+        public List<PhysicsUnit> PhysicsUnits = new List<PhysicsUnit>();
+
         #endregion
 
         // todo: unit
@@ -71,6 +83,8 @@ namespace ACrossoverEpisode.Layers
 
         public override void Load()
         {
+            Timers = new List<TimerTask>();
+
             // Load assets.
             // todo: Null checks and fallbacks.
             Context.Settings.RenderSettings.ClearColor = LoadedMap.BackgroundColor;
@@ -79,13 +93,21 @@ namespace ACrossoverEpisode.Layers
 
             // Logic.
 
+            // Init physics.
+            PhysicsSim = new World(new Vector2(0, 9));
+
             // Create entities.
             Player = UnitFactory.CreatePlayer(LoadedMap.Spawn);
             Units.Add(Player);
 
             foreach (MapUnit u in LoadedMap.Units)
             {
-                Units.Add(UnitFactory.CreateGeneric(u.Type, u.Spawn));
+                Unit newUnit = UnitFactory.CreateGeneric(u.Type, u.Spawn);
+
+                Units.Add(newUnit);
+
+                // There should be some flag for whether the unit should exist in the physics sim.
+                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit));
             }
 
             // copy all units to the player object, temporary workaround.
@@ -113,9 +135,29 @@ namespace ACrossoverEpisode.Layers
 
         public override void Update(float frameTime)
         {
+            // Update physics.
+            PhysicsSim.Step(frameTime / 1000);
+
+            foreach (PhysicsUnit u in PhysicsUnits)
+            {
+                u.Unit.X = u.PhysicsBody.Position.X;
+                u.Unit.Y = u.PhysicsBody.Position.Y;
+            }
+
             foreach (Unit u in Units)
             {
                 u.Update(frameTime);
+            }
+
+            // Update pending timers.
+            for (int i = 0; i < Timers.Count; i++)
+            {
+                Timers[i].Update(frameTime);
+                if (Timers[i].Ready)
+                {
+                    Timers.RemoveAt(i);
+                    i--;
+                }
             }
 
             // Update the camera.
@@ -143,6 +185,14 @@ namespace ACrossoverEpisode.Layers
             foreach (Unit u in Units)
             {
                 u.Draw(renderer);
+            }
+
+            // Debug draw physics units.
+            foreach (PhysicsUnit u in PhysicsUnits)
+            {
+                renderer.PushToModelMatrix(Matrix4x4.CreateRotationZ(u.PhysicsBody.Rotation));
+                renderer.Render(new Vector3(u.PhysicsBody.Position.X, u.PhysicsBody.Position.Y, 1), u.Unit.Size, new Color(0, 135, 0, 135));
+                renderer.PopModelMatrix();
             }
 
             // Draw the current dialog box - if any.
@@ -183,7 +233,10 @@ namespace ACrossoverEpisode.Layers
 
         private void Wait(int duration)
         {
-            Task.Delay(duration).Wait();
+            TimerTask newTask = new TimerTask(duration);
+            newTask.Start();
+            Timers.Add(newTask);
+            newTask.Task.Wait();
         }
 
         private void Text(string text)
