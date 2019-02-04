@@ -96,6 +96,10 @@ namespace ACrossoverEpisode.Layers
             // Init physics.
             PhysicsSim = new World(new Vector2(0, 9));
 
+            // Add floor.
+            Unit floorUnit = new Unit(new Vector3(0, LoadedMap.FloorY, 0), new Vector2(LoadedMap.Size.X, 10));
+            PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, floorUnit, false, 0));
+
             // Create entities.
             Player = UnitFactory.CreatePlayer(LoadedMap.Spawn);
             Units.Add(Player);
@@ -136,12 +140,12 @@ namespace ACrossoverEpisode.Layers
         public override void Update(float frameTime)
         {
             // Update physics.
-            PhysicsSim.Step(frameTime / 1000);
+            PhysicsSim.Step(frameTime / 1000f);
 
             foreach (PhysicsUnit u in PhysicsUnits)
             {
-                u.Unit.X = u.PhysicsBody.Position.X;
-                u.Unit.Y = u.PhysicsBody.Position.Y;
+                u.Unit.Position = u.Position;
+                Context.Log.Warning(u.PhysicsBody.Position.ToString(), Emotion.Debug.MessageSource.Game);
             }
 
             foreach (Unit u in Units)
@@ -190,9 +194,7 @@ namespace ACrossoverEpisode.Layers
             // Debug draw physics units.
             foreach (PhysicsUnit u in PhysicsUnits)
             {
-                renderer.PushToModelMatrix(Matrix4x4.CreateRotationZ(u.PhysicsBody.Rotation));
-                renderer.Render(new Vector3(u.PhysicsBody.Position.X, u.PhysicsBody.Position.Y, 1), u.Unit.Size, new Color(0, 135, 0, 135));
-                renderer.PopModelMatrix();
+                renderer.Render(u.Position, u.Unit.Size, new Color(0, 135, 0, 135));
             }
 
             // Draw the current dialog box - if any.
@@ -228,7 +230,6 @@ namespace ACrossoverEpisode.Layers
         {
             Context.ScriptingEngine.Expose("wait", (Action<int>)Wait);
             Context.ScriptingEngine.Expose("text", (Action<string>)Text);
-            Context.ScriptingEngine.Expose("te", (Action<string>)Text);
         }
 
         private void Wait(int duration)

@@ -37,11 +37,11 @@
         protected float CurrentStamina;
         protected DialogBox CurrentQuote;
 
-        protected Unit(Vector3 position) : base(position)
+        public Unit(Vector3 position) : base(position)
         {
         }
 
-        protected Unit(Vector3 position, Vector2 size) : base(position, size)
+        public Unit(Vector3 position, Vector2 size) : base(position, size)
         {
         }
 

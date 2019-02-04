@@ -80,7 +80,7 @@
     <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Layers\GameLayer.cs" />
     <Compile Include="Models\BackgroundMode.cs" />
-    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\GameMap.cs" />
     <Compile Include="Models\MapUnit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

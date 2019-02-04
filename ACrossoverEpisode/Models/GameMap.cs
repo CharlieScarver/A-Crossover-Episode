@@ -19,6 +19,9 @@ namespace ACrossoverEpisode.Models
         public BackgroundMode? BackgroundMode { get; set; }
         public Color BackgroundColor { get; set; }
 
+        // Other
+        public float FloorY { get; set; }
+
         // Unit Block
         public List<MapUnit> Units { get; set; }
 

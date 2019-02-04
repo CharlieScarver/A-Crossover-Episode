@@ -12,13 +12,22 @@
   "Music": "",
   "BackgroundImage": "",
   "BackgroundMode": "SolidColor",
-  "BackgroundColor":  {
+  "BackgroundColor": {
     "R": 255,
     "G": 255,
     "B": 255,
     "A": 255
   },
+  "FloorY": 450,
   "Units": [
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 850,
+        "Y": 340,
+        "Z": 1
+      }
+    },
   ],
   "StartScript": "wait(3000); text('...')"
 }
