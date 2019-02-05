@@ -94,7 +94,7 @@ namespace ACrossoverEpisode.Layers
             // Logic.
 
             // Init physics.
-            PhysicsSim = new World(new Vector2(0, 9));
+            PhysicsSim = new World(new Microsoft.Xna.Framework.Vector2(0, 9.5f));
 
             // Add floor.
             Unit floorUnit = new Unit(new Vector3(0, LoadedMap.FloorY, 0), new Vector2(LoadedMap.Size.X, 10));
@@ -142,10 +142,15 @@ namespace ACrossoverEpisode.Layers
             // Update physics.
             PhysicsSim.Step(frameTime / 1000f);
 
+            if (Context.InputManager.IsMouseKeyHeld(Emotion.Input.MouseKeys.Left))
+            {
+                Unit newUnit = new Unit(new Vector3(Context.InputManager.GetMousePosition(), 0), new Vector2(10, 10));
+                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit));
+            }
+
             foreach (PhysicsUnit u in PhysicsUnits)
             {
                 u.Unit.Position = u.Position;
-                Context.Log.Warning(u.PhysicsBody.Position.ToString(), Emotion.Debug.MessageSource.Game);
             }
 
             foreach (Unit u in Units)
