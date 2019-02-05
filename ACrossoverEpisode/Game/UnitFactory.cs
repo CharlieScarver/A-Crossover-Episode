@@ -3,6 +3,7 @@
 using System.Numerics;
 using Emotion.Engine;
 using EmotionPlayground.GameObjects;
+using FarseerPhysics.Dynamics;
 
 #endregion
 
@@ -14,10 +15,11 @@ namespace ACrossoverEpisode.Game
         /// Creates and returns a player unit.
         /// </summary>
         /// <param name="spawn">The spawn location of the unit.</param>
+        /// <param name="physicsSim">Physics simulation.</param>
         /// <returns>A player unit.</returns>
-        public static Unit CreatePlayer(Vector3 spawn)
+        public static Unit CreatePlayer(Vector3 spawn, World physicsSim)
         {
-            return new Horseman(spawn, new Vector2(96, 96));
+            return new Horseman(spawn, new Vector2(37 * 2, 42 * 2), physicsSim);
         }
 
         /// <summary>

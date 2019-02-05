@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using ACrossoverEpisode.GameObjects;
 using Emotion.Engine;
 using Emotion.Game.Animation;
 using Emotion.Graphics;
@@ -10,6 +11,7 @@ using Emotion.Graphics.Text;
 using Emotion.Primitives;
 using EmotionPlayground.Game.ExtensionClasses;
 using EmotionPlayground.Interfaces;
+using FarseerPhysics.Dynamics;
 
 #endregion
 
@@ -18,8 +20,6 @@ namespace EmotionPlayground.GameObjects
     public class Horseman : Unit, IUpdatable, IDrawable
     {
         // Debug/Visual constants
-        private readonly float FacingArrowWidth = 50;
-        private readonly float FacingArrowHeight = 25;
         private readonly float StaminaBarHeight = 25;
 
         // Gameplay constants
@@ -42,10 +42,12 @@ namespace EmotionPlayground.GameObjects
         // todo: Move out of here.
         public List<Unit> AllUnits { get; set; } = new List<Unit>();
 
-        public Horseman(Vector3 position, Vector2 size) : base(position, size)
+        private PhysicsUnit _physBody;
+
+        public Horseman(Vector3 position, Vector2 size, World physicsSim) : base(position, size)
         {
-            SpriteSize = new Vector2(48, 48);
-            Velocity = 5;
+            SpriteSize = new Vector2(37, 42);
+            Velocity = 40;
             MaxDashVelocity = 25;
             MaxStamina = 100;
             CurrentStamina = MaxStamina;
@@ -62,7 +64,7 @@ namespace EmotionPlayground.GameObjects
                 1
             );
 
-            BoundingBox = new Rectangle(position.ToVec2(), new Vector2(24, 48));
+            BoundingBox = new Rectangle(position.ToVec2(), new Vector2(24, 42));
             BBRelatives = new Vector2(
                 (Size.X - BoundingBox.Size.X) / 2 + 5,
                 (Size.Y - BoundingBox.Size.Y) / 2
@@ -83,7 +85,8 @@ namespace EmotionPlayground.GameObjects
                 timer.Start();
             }
 
-            Context.AssetLoader.Get<Font>("debugFont.otf");
+            _physBody = new PhysicsUnit(physicsSim, this, CollisionLayer.Entities, CollisionLayer.Walls);
+            _physBody.OnContact += (a, b) => { Context.Log.Warning($"Collided {a} with {b}", Emotion.Debug.MessageSource.Game); };
         }
 
         private void UpdateTimers(float deltaTime)
@@ -101,22 +104,30 @@ namespace EmotionPlayground.GameObjects
             IsMovingLeft = false;
             //this.IsDashing = false;
 
-            if (Context.InputManager.IsKeyDown("D") || Context.InputManager.IsKeyHeld("D"))
+            Microsoft.Xna.Framework.Vector2 vel = _physBody.PhysicsBody.LinearVelocity;
+            vel.X = 0;
+
+            if (Context.InputManager.IsKeyHeld("D"))
             {
                 IsFacingRight = true;
                 IsMoving = true;
                 IsMovingRight = true;
                 IsMovingLeft = false;
+
+                vel.X = Velocity;
             }
 
-
-            if (Context.InputManager.IsKeyDown("A") || Context.InputManager.IsKeyHeld("A"))
+            if (Context.InputManager.IsKeyHeld("A"))
             {
                 IsFacingRight = false;
                 IsMoving = true;
                 IsMovingRight = false;
                 IsMovingLeft = true;
+
+                vel.X = -Velocity;
             }
+
+            _physBody.PhysicsBody.LinearVelocity = vel;
 
             if (Context.InputManager.IsKeyHeld("E") && CurrentStamina > 90)
             {
@@ -217,7 +228,9 @@ namespace EmotionPlayground.GameObjects
         {
             UpdateTimers(deltaTime);
             ManageInput();
-            ManageMovement();
+            ///ManageMovement();
+            
+            Position = _physBody.Position;
 
             // Don't scan for Targets when charging 
             if (!IsCharging) ScanForTargets();
@@ -230,39 +243,7 @@ namespace EmotionPlayground.GameObjects
 
         public override void Draw(Renderer renderer)
         {
-            //// Draw the Facing "Arrow"
-            //Vector3 p1;
-            //Vector3 p2;
-            //Vector3 p3;
-
-            //if (this.IsFacingRight)
-            //{
-            //    p1 = this.Position + new Vector3(this.Size.X - 25, -80, 0);
-            //    p2 = this.Position + new Vector3(this.Size.X - 25, this.FacingArrowHeight - 80, 0);
-            //    p3 = this.Position + new Vector3(this.Size.X + 25, (this.FacingArrowHeight / 2) - 80, 0);
-            //}
-            //else
-            //{
-            //    p1 = this.Position + new Vector3(this.FacingArrowWidth - 25, -80, 0);
-            //    p2 = this.Position + new Vector3(this.FacingArrowWidth - 25, this.FacingArrowHeight - 80, 0);
-            //    p3 = this.Position + new Vector3(25 - this.FacingArrowWidth, (this.FacingArrowHeight / 2) - 80, 0);
-            //}
-
-            //buffer.Reset();
-            //buffer.MapNextVertex(p1, Color.Red);
-            //buffer.MapNextVertex(p2, Color.Red);
-            //buffer.MapNextVertex(p3, Color.Red);
-            //buffer.MapNextVertex(p3, Color.Red);
-            //buffer.Render();
-
-            // Draw the Action Area 
-            //renderer.RenderLine(new Vector3(this.ActionArea.Left), new Vector3(this.ActionArea.Top), Color.Red);
-            //renderer.RenderLine(new Vector3(this.ActionArea.Top), new Vector3(this.ActionArea.Right), Color.Red);
-            //renderer.RenderLine(new Vector3(this.ActionArea.Right), new Vector3(this.ActionArea.Bottom), Color.Red);
-            //renderer.RenderLine(new Vector3(this.ActionArea.Bottom), new Vector3(this.ActionArea.Left), Color.Red);
-            //renderer.RenderCircleOutline(new Vector3(this.ActionArea.Center), this.ActionArea.Radius, Color.Red, true);
-
-            // Draw Stamina bar
+            // Draw Stamina bar. Move to UI.
             renderer.Render(Position + new Vector3(0, -50, 0), new Vector2(CurrentStamina, StaminaBarHeight), Color.Green);
             renderer.RenderLine(Position + new Vector3(90, -50, 0), Position + new Vector3(90, StaminaBarHeight - 50, 0), Color.Yellow);
             renderer.RenderLine(Position + new Vector3(MaxStamina, -50, 0), Position + new Vector3(MaxStamina, StaminaBarHeight - 50, 0), Color.Red);

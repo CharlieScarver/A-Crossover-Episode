@@ -47,47 +47,47 @@
 
         public virtual void ManageMovement()
         {
-            if (this.IsMovingRight)
-            {
-                this.X += this.Velocity;
-            }
-            else if (this.IsMovingLeft)
-            {
-                this.X -= this.Velocity;
-            }
+            //if (this.IsMovingRight)
+            //{
+            //    this.X += this.Velocity;
+            //}
+            //else if (this.IsMovingLeft)
+            //{
+            //    this.X -= this.Velocity;
+            //}
 
-            if (this.IsDashing && this.CurrentStamina > 20)
-            {
-                if (this.IsFacingRight)
-                {
-                    this.X += this.DashVelocity;
-                } 
-                else
-                {
-                    this.X -= this.DashVelocity;
-                }
-                if (this.DashVelocity < this.MaxDashVelocity)
-                {
-                    this.DashVelocity += this.DashVelocityIncreaseStep;
-                    this.DashVelocityIncreaseStep++;
-                }
+            //if (this.IsDashing && this.CurrentStamina > 20)
+            //{
+            //    if (this.IsFacingRight)
+            //    {
+            //        this.X += this.DashVelocity;
+            //    } 
+            //    else
+            //    {
+            //        this.X -= this.DashVelocity;
+            //    }
+            //    if (this.DashVelocity < this.MaxDashVelocity)
+            //    {
+            //        this.DashVelocity += this.DashVelocityIncreaseStep;
+            //        this.DashVelocityIncreaseStep++;
+            //    }
 
-                this.CurrentStamina -= 4;
-            }
-            else
-            {
-                this.IsDashing = false;
-            }
+            //    this.CurrentStamina -= 4;
+            //}
+            //else
+            //{
+            //    this.IsDashing = false;
+            //}
 
-            if (this.CurrentStamina < this.MaxStamina)
-            {
-                this.CurrentStamina += 0.2f;
-            }
+            //if (this.CurrentStamina < this.MaxStamina)
+            //{
+            //    this.CurrentStamina += 0.2f;
+            //}
 
-            if (this.IsFalling)
-            {
-                this.Y -= this.Velocity;
-            }
+            //if (this.IsFalling)
+            //{
+            //    this.Y -= this.Velocity;
+            //}
         }
 
         public virtual void Update(float deltaTime)

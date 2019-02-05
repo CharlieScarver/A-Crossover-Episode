@@ -94,14 +94,14 @@ namespace ACrossoverEpisode.Layers
             // Logic.
 
             // Init physics.
-            PhysicsSim = new World(new Microsoft.Xna.Framework.Vector2(0, 9.5f));
+            PhysicsSim = new World(new Microsoft.Xna.Framework.Vector2(0, 100f));
 
             // Add floor.
             Unit floorUnit = new Unit(new Vector3(0, LoadedMap.FloorY, 0), new Vector2(LoadedMap.Size.X, 10));
-            PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, floorUnit, false, 0));
+            PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, floorUnit, CollisionLayer.Walls, CollisionLayer.Entities, false, 0));
 
             // Create entities.
-            Player = UnitFactory.CreatePlayer(LoadedMap.Spawn);
+            Player = UnitFactory.CreatePlayer(LoadedMap.Spawn, PhysicsSim);
             Units.Add(Player);
 
             foreach (MapUnit u in LoadedMap.Units)
@@ -111,7 +111,7 @@ namespace ACrossoverEpisode.Layers
                 Units.Add(newUnit);
 
                 // There should be some flag for whether the unit should exist in the physics sim.
-                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit));
+                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit, CollisionLayer.Entities, CollisionLayer.Walls));
             }
 
             // copy all units to the player object, temporary workaround.
@@ -145,7 +145,7 @@ namespace ACrossoverEpisode.Layers
             if (Context.InputManager.IsMouseKeyHeld(Emotion.Input.MouseKeys.Left))
             {
                 Unit newUnit = new Unit(new Vector3(Context.InputManager.GetMousePosition(), 0), new Vector2(10, 10));
-                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit));
+                PhysicsUnits.Add(new PhysicsUnit(PhysicsSim, newUnit, CollisionLayer.Entities, CollisionLayer.Walls));
             }
 
             foreach (PhysicsUnit u in PhysicsUnits)
@@ -171,7 +171,7 @@ namespace ACrossoverEpisode.Layers
 
             // Update the camera.
             // todo: This should happen automatically with a target camera, but it currently doesn't support offsets.
-            Context.Renderer.Camera.X = Player.X + -275;
+            Context.Renderer.Camera.X = Player.X + -275f;
         }
 
         public override void Draw(Renderer renderer)
@@ -180,13 +180,13 @@ namespace ACrossoverEpisode.Layers
             switch (LoadedMap.BackgroundMode)
             {
                 case BackgroundMode.SolidColor:
-                    renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, LoadedMap.BackgroundColor);
+                    renderer.Render(Vector3.Zero, LoadedMap.Size, LoadedMap.BackgroundColor);
                     break;
                 case BackgroundMode.MoveWithCamera:
                     renderer.Render(new Vector3(Context.Renderer.Camera.X, Context.Renderer.Camera.Y, 0), Context.Renderer.Camera.Size, Color.White, Background);
                     break;
                 case BackgroundMode.HorizontalFillCameraHeight:
-                    renderer.Render(new Vector3(0, 0, 0), new Vector2(LoadedMap.Size.X, Context.Renderer.Camera.Height), Color.White, Background, new Rectangle(Vector2.Zero, new Vector2(LoadedMap.Size.X, Background.Size.Y)));
+                    renderer.Render(Vector3.Zero, new Vector2(LoadedMap.Size.X, Context.Renderer.Camera.Height), Color.White, Background, new Rectangle(Vector2.Zero, new Vector2(LoadedMap.Size.X, Background.Size.Y)));
                     break;
             }
 
@@ -203,7 +203,7 @@ namespace ACrossoverEpisode.Layers
             }
 
             // Draw the current dialog box - if any.
-            CurrentDialog?.Draw(renderer);
+            //CurrentDialog?.Draw(renderer);
 
             // todo: Turn into units.
             string DebugFont = "debugFont.otf";
