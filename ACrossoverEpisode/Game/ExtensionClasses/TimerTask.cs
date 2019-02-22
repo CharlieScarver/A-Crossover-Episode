@@ -1,5 +1,9 @@
-﻿using Emotion.Engine;
+﻿#region Using
+
+using Emotion.Engine;
 using EmotionPlayground.Game.ExtensionClasses;
+
+#endregion
 
 namespace ACrossoverEpisode.Game.ExtensionClasses
 {

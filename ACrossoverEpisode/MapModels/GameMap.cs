@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using System.Numerics;
 using Emotion.Primitives;
+
+#endregion
 
 namespace ACrossoverEpisode.Models
 {
@@ -23,6 +27,7 @@ namespace ACrossoverEpisode.Models
         public float FloorY { get; set; }
 
         // Unit Block
+        public List<MapPlatform> Platforms { get; set; }
         public List<MapUnit> Units { get; set; }
 
         // Scripts

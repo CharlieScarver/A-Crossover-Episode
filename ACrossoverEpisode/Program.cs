@@ -1,19 +1,9 @@
 ﻿#region Using
 
 using System;
-using System.Collections.Generic;
-using System.Numerics;
-using ACrossoverEpisode.GameObjects;
-using ACrossoverEpisode.Layers;
+using ACrossoverEpisode.Game;
 using Emotion.Engine;
-using Emotion.Engine.Hosting.Desktop;
-using Emotion.Engine.Scenography;
-using Emotion.Game.Animation;
-using Emotion.Graphics;
-using Emotion.Graphics.Text;
 using Emotion.IO;
-using Emotion.Primitives;
-using EmotionPlayground.GameObjects;
 
 #endregion
 
@@ -36,7 +26,7 @@ namespace EmotionPlayground
             Context.Flags.RenderFlags.CircleDetail = 90;
 
             // Load test map.
-            Context.SceneManager.SetScene(new GameLayer(Context.AssetLoader.Get<TextFile>("Maps/testmap.json")));
+            Context.SceneManager.SetScene(new GameScene(Context.AssetLoader.Get<TextFile>("Maps/tutorial.json")));
             Context.Run();
         }
     }
