@@ -191,14 +191,19 @@ namespace ACrossoverEpisode.GameObjects
             _expTargetDist = Microsoft.Xna.Framework.Vector2.Distance(target.PhysicsBody.Position, PhysicsBody.Position);
         }
 
-        private int _interactRange = 1000;
+        private int _interactRange = 150;
 
         private void CastSpell_PlayerInteract()
         {
             // Get closest target.
             PhysicsUnit target = Scene.GetTargets(this, _interactRange, CollisionLayer.Entities).AsParallel().OrderBy(x => x.Distance).Select(x => x.Unit).FirstOrDefault();
 
-            if (target == null) return;
+            if (target == null)
+            {
+                // TODO: Remove this and think of a better way to close the dialog box
+                Scene.ExecuteScript("text(null);");
+                return;
+            }
 
             // If there is an interact script attached, execute it.
             if (!string.IsNullOrEmpty(target.InteractScript))

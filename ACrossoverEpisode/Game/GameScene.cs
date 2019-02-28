@@ -233,9 +233,9 @@ namespace ACrossoverEpisode.Game
             string DebugFont = "debugFont.otf";
             string PixelatedFont = "Fonts/pixelated_princess/pixelated_princess.ttf";
             renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "This game is like life: you can only go forward.", new Vector3(200, 100, 1), Color.Black);
-            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "Your mind sees what your eyes cannot.", new Vector3(4700, 150, 1), Color.White);
+            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "Your mind sees what your eyes cannot.", new Vector3(4700 , 150, 1), Color.White);
 
-            Vector3 dialogBoxPosition = new Vector3(1200, 290, 1);
+            Vector3 dialogBoxPosition = new Vector3(1250, 300, 1);
             renderer.Render(dialogBoxPosition, new System.Numerics.Vector2(550, 45), Color.Black);
             renderer.RenderOutline(dialogBoxPosition, new System.Numerics.Vector2(550, 45), Color.White);
             renderer.RenderString(Context.AssetLoader.Get<Font>(PixelatedFont), 22, "If there's a god, I hope she's watching...", dialogBoxPosition + new Vector3(30, 7, 1), Color.White);

@@ -9,10 +9,11 @@
     "Y": 400,
     "Z": 2
   },
-  "Music": "tuguduk.wav",
+  "Music": "",
   "BackgroundImage": "background-repeatable.png",
   "BackgroundMode": "HorizontalFillCameraHeight",
   "FloorY": 530,
+  "Platforms": [],
   "Units": [
     {
       "Type": "Bouncer",
@@ -20,7 +21,8 @@
         "X": 850,
         "Y": 340,
         "Z": 1
-      }
+      },
+      "InteractScript": "text('The more you do things, the faster the universe dies. Second law of Thermodynamics. 1');"
     },
     {
       "Type": "Bouncer",
@@ -28,7 +30,8 @@
         "X": 850,
         "Y": 445,
         "Z": 3
-      }
+      },
+      "InteractScript": "text('The more you do things, the faster the universe dies. Second law of Thermodynamics. 2');"
     },
     {
       "Type": "Bouncer",
@@ -36,7 +39,8 @@
         "X": 1450,
         "Y": 360,
         "Z": 1
-      }
+      },
+      "InteractScript": "text('The more you do things, the faster the universe dies. Second law of Thermodynamics. 3');"
     },
     {
       "Type": "Bouncer",
@@ -44,7 +48,8 @@
         "X": 2150,
         "Y": 410,
         "Z": 3
-      }
+      },
+      "InteractScript": "text('The more you do things, the faster the universe dies. Second law of Thermodynamics. 4');"
     },
     {
       "Type": "Wonderer",
@@ -52,7 +57,8 @@
         "X": 675,
         "Y": 380,
         "Z": 1
-      }
+      },
+	  "InteractScript": "text('Blizzard will rage over the pyramids.');"
     }
   ]
 }

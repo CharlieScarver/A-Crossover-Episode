@@ -45,7 +45,10 @@ namespace ACrossoverEpisode.Game
                     };
 
                 case "wonderer":
-                    return new Wonderer(mapUnit.Spawn, new Vector2(96, 96), game);
+                    return new Wonderer(mapUnit.Spawn, new Vector2(96, 96), game)
+                    {
+                        InteractScript = mapUnit.InteractScript
+                    };
 
                 default:
                     Context.Log.Error($"Invalid unit of type {type}.", MessageSource.Game);
