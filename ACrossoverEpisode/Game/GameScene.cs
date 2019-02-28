@@ -171,7 +171,7 @@ namespace ACrossoverEpisode.Game
                     anyTriggered = true;
                 }
                 // Clear any triggered listeners.
-                if(anyTriggered) Events = new ConcurrentBag<EventListener>(Events.Where(x => x.Triggered));
+                if(anyTriggered) Events = new ConcurrentBag<EventListener>(Events.Where(x => !x.Triggered));
             }
 
             // Update pending timers.
