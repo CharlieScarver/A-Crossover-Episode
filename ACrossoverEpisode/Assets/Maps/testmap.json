@@ -12,6 +12,7 @@
   "Music": "tuguduk.wav",
   "BackgroundImage": "background-repeatable.png",
   "BackgroundMode": "HorizontalFillCameraHeight",
+  "FloorY": 530,
   "Units": [
     {
       "Type": "Bouncer",

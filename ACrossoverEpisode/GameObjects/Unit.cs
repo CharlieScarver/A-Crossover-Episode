@@ -1,168 +1,106 @@
-﻿namespace EmotionPlayground.GameObjects
+﻿#region Using
+
+using System;
+using System.Numerics;
+using Emotion.Engine;
+using Emotion.Game.Animation;
+using Emotion.Graphics;
+using Emotion.Graphics.Text;
+using Emotion.Primitives;
+
+#endregion
+
+namespace EmotionPlayground.GameObjects
 {
-    using Emotion.Engine;
-    using Emotion.Game.Animation;
-    using Emotion.Graphics;
-    using Emotion.Graphics.Text;
-    using System.Numerics;
-    using EmotionPlayground.Interfaces;
-    using Emotion.Primitives;
-    using ACrossoverEpisode.GameObjects;
-
-    public class Unit : GameObject, IUpdatable, IDrawable
+    public class Unit : IdTransform
     {
-        protected float Velocity;
-        protected float DashVelocity;
-        protected float DashVelocityIncreaseStep;
-        protected float MaxDashVelocity;
-        protected float MaxStamina;
-        protected AnimatedTexture Animation;
-        protected Vector2 SpriteSize;
-        protected Vector2 BBRelatives;
-        protected Vector2 FeetLevelRelatives;
+        /// <summary>
+        /// The name of the unit. Used for debugging. Should probably be removed later unless we use it in the scripting for
+        /// something.
+        /// </summary>
+        public string Name { get; }
 
-        public Rectangle BoundingBox;
+        #region Stats
 
-        public bool IsFacingRight = true;
-        public bool IsMoving = false;
-        public bool IsMovingRight = false;
-        public bool IsMovingLeft = false;
-        public bool IsIdle = true;
-        public bool IsFalling = false;
+        /// <summary>
+        /// The speed at which the unit moves. 40 feels normal for a player. This number is the physics units the unit will move
+        /// per step while in motion. It might seem like a lot - but it isn't.
+        /// </summary>
+        public float MovementSpeed { get; protected set; }
 
-        public bool IsTalking = false;
-        public bool IsDashing = false;
-        public bool inAnimation = false;
+        /// <summary>
+        /// How far up the unit can jump. 60 feels normal for a player. Might seem like a lot - but it has to combat gravity.
+        /// </summary>
+        public float JumpHeight { get; protected set; }
 
-        protected float CurrentStamina;
-        protected DialogBox CurrentQuote;
+        #endregion
 
-        protected Unit(Vector3 position) : base(position)
+        #region Status
+
+        /// <summary>
+        /// Whether the unit is currently standing on a solid object AKA ground.
+        /// </summary>
+        public virtual bool OnGround { get; protected set; }
+
+        /// <summary>
+        /// Whether the unit is in motion.
+        /// </summary>
+        public virtual bool IsMoving { get; protected set; }
+
+        /// <summary>
+        /// If true is facing right. Otherwise is facing left.
+        /// </summary>
+        public virtual bool FacingRight { get; protected set; }
+
+        #endregion
+
+        #region Scripts
+
+        /// <summary>
+        /// The script to run when the unit is interacted with by the player.
+        /// </summary>
+        public string InteractScript { get; set; }
+
+        #endregion
+
+        public AnimatedTexture Sprite;
+
+        public Unit(string name, Vector3 position) : base(position)
         {
+            Name = name;
         }
 
-        protected Unit(Vector3 position, Vector2 size) : base(position, size)
+        public Unit(string name, Vector3 position, Vector2 size) : base(position, size)
         {
-        }
-
-        public virtual void ManageMovement()
-        {
-            if (this.IsMovingRight)
-            {
-                this.X += this.Velocity;
-            }
-            else if (this.IsMovingLeft)
-            {
-                this.X -= this.Velocity;
-            }
-
-            if (this.IsDashing && this.CurrentStamina > 20)
-            {
-                if (this.IsFacingRight)
-                {
-                    this.X += this.DashVelocity;
-                } 
-                else
-                {
-                    this.X -= this.DashVelocity;
-                }
-                if (this.DashVelocity < this.MaxDashVelocity)
-                {
-                    this.DashVelocity += this.DashVelocityIncreaseStep;
-                    this.DashVelocityIncreaseStep++;
-                }
-
-                this.CurrentStamina -= 4;
-            }
-            else
-            {
-                this.IsDashing = false;
-            }
-
-            if (this.CurrentStamina < this.MaxStamina)
-            {
-                this.CurrentStamina += 0.2f;
-            }
-
-            if (this.IsFalling)
-            {
-                this.Y -= this.Velocity;
-            }
+            Name = name;
         }
 
         public virtual void Update(float deltaTime)
         {
-            this.ManageMovement();
-            this.Animation.Update(deltaTime);
-            this.BoundingBox.X = this.Position.X + BBRelatives.X;
-            this.BoundingBox.Y = this.Position.Y + BBRelatives.Y;
+            Sprite?.Update(deltaTime);
         }
 
         public virtual void Draw(Renderer renderer)
         {
+            // If no sprite - nothing to draw.
+            if (Sprite == null) return;
+
+            // Debug draw Id and name.
             renderer.RenderString(
                 Context.AssetLoader.Get<Font>("debugFont.otf"),
                 15,
-                this.Id.ToString(),
-                this.Position,
+                $"{Id}: {Name}",
+                Position - new Vector3(0, 20, 0),
                 Color.Black
-               );
+            );
 
-            if (this.IsFacingRight)
-            {
-                renderer.Render(
-                    this.Position,
-                    this.Size,
-                    Color.White,
-                    this.Animation.Texture,
-                    this.Animation.CurrentFrame
-                );
-            }
-            else
-            {
-                renderer.Render(
-                    this.Position,
-                    this.Size,
-                    Color.White,
-                    this.Animation.Texture.ModifyMatrix(Matrix4x4.CreateScale(-1, 1, 1)),
-                    this.Animation.CurrentFrame
-                );
-            }
-
-            if (this.IsTalking && this.CurrentQuote != null)
-            {
-                this.CurrentQuote.Draw(renderer);
-            }
-
-            //if (this.IsFacingRight)
-            //{
-                //renderer.Render(
-                //    this.Position,
-                //    this.Size, // Display size coming from Transform.Size
-                //    Color.White,
-                //    this.Animation.Texture,
-                //    this.Animation.CurrentFrame
-                //);
-            //}
-            //else
-            //{
-            //    Matrix4 mirrorMatrix = Matrix4.CreateScale(-1, 1, 1);
-            //    renderer.MatrixStack.Push(mirrorMatrix);
-            //    renderer.Render(
-            //        this.Position,
-            //        this.Size, // Display size coming from Transform.Size
-            //        Color.White,
-            //        this.Animation.Texture,
-            //        this.Animation.CurrentFrame
-            //    );
-            //    renderer.MatrixStack.Pop();
-            //}
-            
-            //renderer.RenderOutline(
-            //    this.BoundingBox.LocationZ(0),
-            //    this.BoundingBox.Size,
-            //    Color.Red
-            //    );
+            renderer.Render(
+                Position,
+                Size,
+                Color.White,
+                FacingRight ? Sprite.Texture : Sprite.Texture.ModifyMatrix(Matrix4x4.CreateScale(-1, 1, 1)),
+                Sprite.CurrentFrame
+            );
         }
     }
 }
