@@ -50,6 +50,12 @@ namespace ACrossoverEpisode.Game
                         InteractScript = mapUnit.InteractScript
                     };
 
+                case "star":
+                    return new Star(mapUnit.Spawn, new Vector2(48, 48), game)
+                    {
+                        InteractScript = mapUnit.InteractScript
+                    };
+
                 default:
                     Context.Log.Error($"Invalid unit of type {type}.", MessageSource.Game);
                     return null;

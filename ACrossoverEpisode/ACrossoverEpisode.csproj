@@ -65,6 +65,7 @@
     <Compile Include="GameObjects\DialogBox.cs" />
     <Compile Include="GameObjects\PhysicsUnit.cs" />
     <Compile Include="GameObjects\Platforms\JumpThroughPlatform.cs" />
+    <Compile Include="GameObjects\Units\Star.cs" />
     <Compile Include="GameObjects\Units\Wonderer.cs" />
     <Compile Include="GameObjects\Units\Bouncer.cs" />
     <Compile Include="GameObjects\Horseman.cs" />

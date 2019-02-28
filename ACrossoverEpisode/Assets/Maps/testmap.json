@@ -59,6 +59,15 @@
         "Z": 1
       },
 	  "InteractScript": "if(!addDistanceEvent(player, me.CenterZ, 150, function t() { text(null) })) text('Blizzard will rage over the pyramids.');"
+    },
+    {
+        "Type": "Star",
+        "Spawn": {
+            "X": 2700, 
+            "Y": 450, 
+            "Z": 1
+        },
+        "InteractScript": "if(!addDistanceEvent(player, me.CenterZ, 150, function t() { text(null) }))text('Iron is the limit.');"
     }
   ]
 }

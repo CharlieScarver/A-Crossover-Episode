@@ -79,9 +79,6 @@ namespace ACrossoverEpisode.Game
 
         #endregion
 
-        // todo: unit
-        private AnimatedTexture starAnimation;
-
         public GameScene(TextFile mapFile)
         {
             // Deserialize map into model.
@@ -133,16 +130,6 @@ namespace ACrossoverEpisode.Game
             SetupScripting();
             if (!string.IsNullOrEmpty(LoadedMap.StartScript))
                 ExecuteScript(LoadedMap.StartScript);
-
-            // todo: turn into a unit.
-            starAnimation = new AnimatedTexture(
-                Context.AssetLoader.Get<Texture>("star-spritesheet.png"),
-                new System.Numerics.Vector2(48, 48),
-                AnimationLoopType.Normal,
-                500,
-                0,
-                1
-            );
         }
 
         public override void Update(float frameTime)
@@ -233,20 +220,12 @@ namespace ACrossoverEpisode.Game
             string DebugFont = "debugFont.otf";
             string PixelatedFont = "Fonts/pixelated_princess/pixelated_princess.ttf";
             renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "This game is like life: you can only go forward.", new Vector3(200, 100, 1), Color.Black);
-            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "Your mind sees what your eyes cannot.", new Vector3(4700 , 150, 1), Color.White);
+            renderer.RenderString(Context.AssetLoader.Get<Font>(DebugFont), 17, "Your mind sees what your eyes cannot.", new Vector3(3150 , 150, 1), Color.White);
 
             Vector3 dialogBoxPosition = new Vector3(1250, 300, 1);
             renderer.Render(dialogBoxPosition, new System.Numerics.Vector2(550, 45), Color.Black);
             renderer.RenderOutline(dialogBoxPosition, new System.Numerics.Vector2(550, 45), Color.White);
             renderer.RenderString(Context.AssetLoader.Get<Font>(PixelatedFont), 22, "If there's a god, I hope she's watching...", dialogBoxPosition + new Vector3(30, 7, 1), Color.White);
-
-            renderer.Render(
-                new Vector3(4950, 450, 0),
-                new System.Numerics.Vector2(48, 48),
-                Color.White,
-                starAnimation.Texture,
-                starAnimation.CurrentFrame
-            );
         }
 
         public override void Unload()
