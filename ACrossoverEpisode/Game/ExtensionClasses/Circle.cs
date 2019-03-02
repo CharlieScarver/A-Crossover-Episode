@@ -1,9 +1,13 @@
-﻿namespace EmotionPlayground.Game.ExtensionClasses
-{
-    using System.Numerics;
-    using System;
-    using Emotion.Primitives;
+﻿#region Using
 
+using System;
+using System.Numerics;
+using Emotion.Primitives;
+
+#endregion
+
+namespace EmotionPlayground.Game.ExtensionClasses
+{
     public struct Circle
     {
         public float X;
@@ -32,25 +36,43 @@
 
         public Vector2 Center
         {
-            get => new Vector2(this.X, this.Y);
+            get => new Vector2(X, Y);
             set
             {
-                this.X = value.X;
-                this.Y = value.Y;
+                X = value.X;
+                Y = value.Y;
             }
         }
 
-        public Vector2 Top => new Vector2(this.X, this.Y + this.Radius);
+        public Vector2 Top
+        {
+            get => new Vector2(X, Y + Radius);
+        }
 
-        public Vector2 Bottom => new Vector2(this.X, this.Y - this.Radius);
+        public Vector2 Bottom
+        {
+            get => new Vector2(X, Y - Radius);
+        }
 
-        public Vector2 Left => new Vector2(this.X - this.Radius, this.Y);
+        public Vector2 Left
+        {
+            get => new Vector2(X - Radius, Y);
+        }
 
-        public Vector2 Right => new Vector2(this.X + this.Radius, this.Y);
+        public Vector2 Right
+        {
+            get => new Vector2(X + Radius, Y);
+        }
 
-        public float Circumference => 2 * (float)Math.PI * Radius;
+        public float Circumference
+        {
+            get => 2 * (float) Math.PI * Radius;
+        }
 
-        public float Area => (float)Math.PI * (float)Math.Pow(Radius, 2);
+        public float Area
+        {
+            get => (float) Math.PI * (float) Math.Pow(Radius, 2);
+        }
 
         #endregion
 
@@ -63,15 +85,12 @@
 
         public static bool intersectsLine(Circle c, Line l)
         {
-            bool anyMarginalPointInsideCircle = Circle.isPointInsideCircle(c, l.A) || Circle.isPointInsideCircle(c, l.B);
+            bool anyMarginalPointInsideCircle = isPointInsideCircle(c, l.A) || isPointInsideCircle(c, l.B);
             if (anyMarginalPointInsideCircle) return true;
 
             double numerator = Math.Abs((l.B.Y - l.A.Y) * c.Center.X - (l.B.X - l.A.X) * c.Center.Y + l.B.X * l.A.Y - l.B.Y * l.A.X);
             double denominator = Utilities.distanceBetweenTwoPoints(l.A, l.B);
-            if (denominator == 0)
-            {
-                throw new DivideByZeroException();
-            }
+            if (denominator == 0) throw new DivideByZeroException();
 
             double distanceToLine = numerator / denominator;
 
@@ -80,7 +99,7 @@
 
         // TODO: Move to Rectangle ?
         public static bool isPointInsideRectangle(Vector2 point, Rectangle rect)
-        { 
+        {
             Vector2 AB = Vector2.Subtract(rect.TopLeft, rect.TopRight);
             Vector2 AM = Vector2.Subtract(rect.TopLeft, point);
             Vector2 BC = Vector2.Subtract(rect.TopRight, rect.BottomRight);
@@ -101,11 +120,11 @@
 
         public static bool intersectsRectangle(Circle c, Rectangle r)
         {
-            return Circle.isPointInsideRectangle(c.Center, r) ||
-                Circle.intersectsLine(c, new Line(new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y))) ||
-                Circle.intersectsLine(c, new Line(new Vector2(r.X + r.Width, r.Y), new Vector2(r.X + r.Width, r.Y + r.Height))) ||
-                Circle.intersectsLine(c, new Line(new Vector2(r.X + r.Width, r.Y + r.Height), new Vector2(r.X, r.Y + r.Height))) ||
-                Circle.intersectsLine(c, new Line(new Vector2(r.X, r.Y + r.Height), new Vector2(r.X, r.Y)));
+            return isPointInsideRectangle(c.Center, r) ||
+                   intersectsLine(c, new Line(new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y))) ||
+                   intersectsLine(c, new Line(new Vector2(r.X + r.Width, r.Y), new Vector2(r.X + r.Width, r.Y + r.Height))) ||
+                   intersectsLine(c, new Line(new Vector2(r.X + r.Width, r.Y + r.Height), new Vector2(r.X, r.Y + r.Height))) ||
+                   intersectsLine(c, new Line(new Vector2(r.X, r.Y + r.Height), new Vector2(r.X, r.Y)));
         }
 
         #endregion

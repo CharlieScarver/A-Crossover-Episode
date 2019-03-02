@@ -2,50 +2,43 @@
 {
     public class Timer
     {
-        public float Goal;              // in miliseconds
+        public float Goal; // in miliseconds
 
         public Timer(float goal)
         {
-            this.PassedTime = 0;
-            this.Ready = true;
-            this.Goal = goal;
+            PassedTime = 0;
+            Ready = true;
+            Goal = goal;
         }
 
-        public float PassedTime         // in miliseconds
+        public float PassedTime // in miliseconds
         {
             get;
             private set;
         }
 
-        public bool Ready
-        {
-            get;
-            private set;
-        }
+        public bool Ready { get; private set; }
 
         // Starts or restarts the timer
-        public void Start()
+        public virtual void Start()
         {
-            this.PassedTime = 0;
-            this.Ready = false;
+            PassedTime = 0;
+            Ready = false;
         }
 
-        public void Update(float deltaTime)
+        public virtual void Update(float deltaTime)
         {
-            if (!this.Ready)
+            if (!Ready)
             {
-                this.PassedTime += deltaTime;
+                PassedTime += deltaTime;
 
-                if (this.PassedTime >= this.Goal)
-                {
-                    this.Stop();
-                }
+                if (PassedTime >= Goal) Stop();
             }
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
-            this.Ready = true;
+            Ready = true;
         }
     }
 }

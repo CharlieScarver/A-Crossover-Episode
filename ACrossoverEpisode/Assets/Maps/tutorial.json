@@ -1,0 +1,59 @@
+﻿{
+  "Name": "tutorial",
+  "Size": {
+    "X": 3000,
+    "Y": 1000
+  },
+  "Spawn": {
+    "X": 275,
+    "Y": 340,
+    "Z": 2
+  },
+  "Music": "",
+  "BackgroundImage": "",
+  "BackgroundMode": "SolidColor",
+  "BackgroundColor": {
+    "R": 255,
+    "G": 255,
+    "B": 255,
+    "A": 255
+  },
+  "FloorY": 450,
+  "Platforms": [
+    {
+      "Size": {
+        "X": "100",
+        "Y": "10"
+      },
+      "Position": {
+        "X": 300,
+        "Y": 340,
+        "Z": 1
+      }
+    },
+    {
+      "Size": {
+        "X": "100",
+        "Y": "10"
+      },
+      "Position": {
+        "X": 450,
+        "Y": 340,
+        "Z": 1
+      },
+      "Type": "JumpThroughPlatform"
+    }
+  ],
+  "Units": [
+    {
+      "Type": "Bouncer",
+      "Spawn": {
+        "X": 850,
+        "Y": 340,
+        "Z": 1
+      },
+      "InteractScript": "if(!addDistanceEvent(player, me.CenterZ, 150, function t() { text(null) })) text('The more you do things, the faster the universe dies. Second law of Thermodynamics. 2');"
+    }
+  ],
+  "StartScript": "return; wait(3000); text('...')"
+}

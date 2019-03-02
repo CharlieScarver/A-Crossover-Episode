@@ -1,10 +1,14 @@
-﻿namespace EmotionPlayground.Game
-{
-    using EmotionPlayground.GameObjects;
-    using System.Collections.Generic;
+﻿#region Using
 
+using System.Collections.Generic;
+using EmotionPlayground.GameObjects;
+
+#endregion
+
+namespace EmotionPlayground.Game
+{
     public static class SceneObjectManager
     {
-        public static List<GameObject> GameObjects = new List<GameObject>();
+        public static List<IdTransform> GameObjects = new List<IdTransform>();
     }
 }
